@@ -23,21 +23,37 @@ struct Question: Codable {
         case isCorrect = "correct_answer"
     }
     
-    // Initialiseur personnalisé pour convertir "True"/"False" en Bool
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let title = try container.decode(String.self, forKey: .title)
-            let correctAnswerString = try container.decode(String.self, forKey: .isCorrect)
+    // Décodage personnalisé : convertit le HTML ET "True"/"False" en Bool
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-            // Convertit "True" en true, "False" en false
-            let isCorrect = correctAnswerString == "True"
+        // 1. Décode le titre brut (avec HTML)
+        let rawTitle = try container.decode(String.self, forKey: .title)
 
-            self.title = title
-            self.isCorrect = isCorrect
-        }
+        // 2. Décode la réponse brute (String "True" ou "False")
+        let correctAnswerString = try container.decode(String.self, forKey: .isCorrect)
+
+        // 3. Applique le décodage HTML au titre
+        self.title = String.fromHTML(rawTitle) ?? rawTitle
+        
+        // 4. Convertit "True" en Bool
+        self.isCorrect = correctAnswerString == "True"
+    }
 }
 
 // Structure pour décoder la réponse complète de l'API
 struct TriviaResponse: Codable {
     let results: [Question]
+}
+
+extension String {
+    static func fromHTML(_ html: String) -> String? {
+        guard let data = html.data(using: .utf8) else { return nil }
+        guard let attributedString = try? NSAttributedString(
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.html],
+            documentAttributes: nil
+        ) else { return nil }
+        return attributedString.string
+    }
 }
