@@ -29,31 +29,37 @@ class QuestionManager {
     }
 
     private func parse(data: Data?) -> [Question] {
-        guard let data = data,
-            let serializedJson = try? JSONSerialization.jsonObject(with: data, options: []),
-            let parsedJson = serializedJson as? [String: Any],
-            let results = parsedJson["results"] as? [[String: Any]] else {
-                return [Question]()
-        }
-        return getQuestionsFrom(parsedDatas: results)
-    }
-
-    private func getQuestionsFrom(parsedDatas: [[String: Any]]) -> [Question]{
-        var retrievedQuestions = [Question]()
-
-        for parsedData in parsedDatas {
-            retrievedQuestions.append(getQuestionFrom(parsedData: parsedData))
+        guard let data = data else {
+            return []
         }
 
-        return retrievedQuestions
-    }
+        do {
+            // 1. Décode la réponse JSON en TriviaResponse
+            let response = try JSONDecoder().decode(TriviaResponse.self, from: data)
 
-    private func getQuestionFrom(parsedData: [String: Any]) -> Question {
-        if let title = parsedData["question"] as? String,
-            let answer = parsedData["correct_answer"] as? String {
-            return Question(title: String(htmlEncodedString: title)!, isCorrect: (answer == "True"))
+            // 2. Crée un tableau vide pour stocker les questions décodées
+            var decodedQuestions = [Question]()
+
+            // 3. Parcourt chaque question dans response.results
+            for question in response.results {
+                
+                // 4. Applique le décodage HTML au titre
+                let decodedTitle = String(htmlEncodedString: question.title) ?? question.title
+
+                // 5. Crée une nouvelle Question avec le titre décodé
+                let newQuestion = Question(title: decodedTitle, isCorrect: question.isCorrect)
+
+                // 6. Ajoute la question au tableau
+                decodedQuestions.append(newQuestion)
+            }
+
+            // 7. Retourne le tableau de questions
+            return decodedQuestions
+
+        } catch {
+            print("Erreur de décodage : \(error)")
+            return []
         }
-        return Question()
     }
 }
 
