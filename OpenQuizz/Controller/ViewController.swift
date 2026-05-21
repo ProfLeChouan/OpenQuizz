@@ -19,6 +19,13 @@ class ViewController: UIViewController {
         let fontValue = Bundle.main.object(forInfoDictionaryKey: "UIAppFonts") as? [String]
         print(fontValue ?? "Clef UIAppFonts pas trouvée")
 
+        NotificationCenter.default.addObserver(
+                forName: .questionsLoaded,
+                object: nil,
+                queue: .main
+            ) { notification in
+                print("Notification questionsLoaded reçue !")
+            }
     }
 }
 

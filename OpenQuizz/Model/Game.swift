@@ -45,12 +45,10 @@ class Game {
         QuestionManager.shared.get { (questions) in
             self.questions = questions
             self.state = .ongoing
-            let name = Notification.Name(rawValue: "QuestionsLoaded")
-            let notification = Notification(name: name)
-            NotificationCenter.default.post(notification)
+            NotificationCenter.default.post(name: .questionsLoaded, object: nil)
             print("fermeture end \(self.questions)")
         }
-        print("refresh end \(self.questions)")
+        print("refresh end \(self.questions)")	
     }
     
     private func receiveQuestions(_ questions: [Question]) {
@@ -77,4 +75,8 @@ class Game {
     private func finishGame() {
         state = .over
     }
+}
+
+extension Notification.Name {
+    static let questionsLoaded = Notification.Name("QuestionsLoaded")
 }
