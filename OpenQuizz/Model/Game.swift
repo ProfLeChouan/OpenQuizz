@@ -22,7 +22,8 @@ class Game {
     
 
 
-    var currentQuestion: Question {
+    var currentQuestion: Question? {
+        guard currentIndex < questions.count else { return nil }
         return questions[currentIndex]
     }
     
@@ -58,10 +59,13 @@ class Game {
     }
 
     func answerCurrentQuestion(with answer: Bool) {
-        if (currentQuestion.isCorrect && answer) || (!currentQuestion.isCorrect && !answer) {
-            score += 1
+        if let question = currentQuestion {
+            if (question.isCorrect && answer) || (!question.isCorrect && !answer) {
+                score += 1
+            }
+            goToNextQuestion()
         }
-        goToNextQuestion()
+
     }
 
     private func goToNextQuestion() {
