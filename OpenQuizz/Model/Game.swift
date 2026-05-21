@@ -27,16 +27,6 @@ class Game {
         return questions[currentIndex]
     }
     
-    func refresh_() {
-        print("refresh start \(self.questions)")
-        score = 0
-        currentIndex = 0
-        state = .over
-
-        QuestionManager.shared.get(completionHandler: receiveQuestions)
-        print("refresh end \(self.questions)")
-    }
-    
     func refresh() {
         print("refresh start \(self.questions)")
         score = 0
@@ -50,12 +40,6 @@ class Game {
             print("fermeture end \(self.questions)")
         }
         print("refresh end \(self.questions)")	
-    }
-    
-    private func receiveQuestions(_ questions: [Question]) {
-        self.questions = questions
-        state = .ongoing
-        print("receiveQuestions end \(self.questions)")
     }
 
     func answerCurrentQuestion(with answer: Bool) {
