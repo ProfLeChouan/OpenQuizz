@@ -19,29 +19,32 @@ class Game {
     enum State {
         case ongoing, over
     }
-    
-
 
     var currentQuestion: Question? {
         guard currentIndex < questions.count else { return nil }
         return questions[currentIndex]
     }
-    
+
+
     func refresh() {
         print("refresh start \(self.questions)")
         score = 0
         currentIndex = 0
         state = .over
 
-        QuestionManager.shared.get { (questions) in
-            self.questions = questions
-            self.state = .ongoing
-            NotificationCenter.default.post(name: .questionsLoaded, object: nil)
-            print("fermeture end \(self.questions)")
+        Task {
+            do {
+                let questions = try await QuestionManager.shared.fetchQuestions()
+                self.questions = questions
+                self.state = .ongoing
+                NotificationCenter.default.post(name: .questionsLoaded, object: nil)
+                print("Refesh task end \(self.questions)")
+            } catch {
+                print("[Game] Refresh Erreur : \(error)")
+                self.questions = []
+            }
         }
-        print("refresh end \(self.questions)")	
     }
-
     func answerCurrentQuestion(with answer: Bool) {
         if let question = currentQuestion {
             if (question.isCorrect && answer) || (!question.isCorrect && !answer) {

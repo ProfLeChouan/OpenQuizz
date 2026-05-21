@@ -14,31 +14,23 @@ class QuestionManager {
     static let shared = QuestionManager()
     private init() {}
 
-
-    func get(completionHandler: @escaping ([Question]) -> ()) {
-        let task = URLSession.shared.dataTask(with: self.url) { (data, response, error) in
-            guard error == nil else {
-                completionHandler([Question]())
-                return
-            }
-            DispatchQueue.main.async {
-                completionHandler(self.parse(data: data))
-            }
-        }
-        task.resume()
+    // Méthode async/await pour récupérer les questions
+    func fetchQuestions() async throws -> [Question] {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try parse(data: data)
     }
 
-    private func parse(data: Data?) -> [Question] {
-        guard let data = data else { return [] }
+    // Parse avec gestion des erreurs
+    private func parse(data: Data?) throws -> [Question] {
+        guard let data = data else {
+            throw NSError(domain: "QuestionManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "Aucune donnée reçue"])
+        }
 
         do {
-            // Décode directement en TriviaResponse → [Question]
-            // Le décodage HTML est géré par l'initialiseur de Question !
             let response = try JSONDecoder().decode(TriviaResponse.self, from: data)
             return response.results
         } catch {
-            print("Erreur de décodage : \(error)")
-            return []
+            throw error
         }
     }
 }
