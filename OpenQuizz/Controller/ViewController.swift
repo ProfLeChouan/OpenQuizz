@@ -36,7 +36,32 @@ class ViewController: UIViewController {
             }
         
         startNewGame() // On lance une partie tout de suite
+        
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragQuestionView(_:)))
+        
     }
+    
+    @objc func dragQuestionView(_ sender: UIPanGestureRecognizer) {
+        if game.state == .ongoing {
+            switch sender.state {
+            case .began, .changed:
+                transformQuestionViewWith(gesture: sender)
+            case .ended, .cancelled:
+                answerQuestion()
+            default:
+                break
+            }
+        }
+    }
+    
+    private func transformQuestionViewWith(gesture: UIPanGestureRecognizer) {
+
+    }
+
+    private func answerQuestion() {
+
+    }
+    
     
     func questionsLoaded() {
         activityIndicator.isHidden = true
