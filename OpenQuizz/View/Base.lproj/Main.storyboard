@@ -69,7 +69,7 @@
                         <outlet property="activityIndicator" destination="GNA-Cf-YQa" id="nhf-45-LzT"/>
                         <outlet property="newGameButton" destination="5Gq-cM-g7J" id="hNB-Cj-9EP"/>
                         <outlet property="questionView" destination="PQD-YI-qM1" id="Fmu-Y4-oNj"/>
-                        <outlet property="scoreLabel" destination="Ru4-DH-Cwd" id="kay-W5-sBU"/>
+                        <outlet property="scoreLabel" destination="HB2-pW-260" id="2Td-a6-UMX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

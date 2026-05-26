@@ -55,13 +55,47 @@ class ViewController: UIViewController {
     }
     
     private func transformQuestionViewWith(gesture: UIPanGestureRecognizer) {
-        print("transformQuestionViewWith")
-    }
+            let translation = gesture.translation(in: questionView)
 
-    private func answerQuestion() {
-        print("answerQuestion")
-       
-    }
+            let translationTransform = CGAffineTransform(translationX: translation.x, y: translation.y)
+
+            let translationPercent = translation.x/(UIScreen.main.bounds.width / 2)
+            let rotationAngle = (CGFloat.pi / 3) * translationPercent
+            let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
+
+            let transform = translationTransform.concatenating(rotationTransform)
+            questionView.transform = transform
+
+            if translation.x > 0 {
+                questionView.style = .correct
+            } else {
+                questionView.style = .incorrect
+            }
+        }
+
+        private func answerQuestion() {
+            switch questionView.style {
+            case .correct:
+                game.answerCurrentQuestion(with: true)
+            case .incorrect:
+                game.answerCurrentQuestion(with: false)
+             case .standard:
+                break
+            }
+
+            scoreLabel.text = "\(game.score) / 10"
+
+            questionView.transform = .identity
+            questionView.style = .standard
+
+            switch game.state {
+            case .ongoing:
+                questionView.title = game.currentQuestion?.title ?? "Pas de question!"
+            case .over:
+                questionView.title = "Game Over"
+            }
+        }
+
     
     
     func questionsLoaded() {

@@ -42,7 +42,7 @@ class Game {
                 self.state = .ongoing
                 NotificationCenter.default.post(name: .questionsLoaded, object: nil)
                 print("Refesh task end \(self.questions)")
-                			
+                		/*
                 //Exercice2 - Pratique des fermetures - 1) Filtre
                 print("Questions ayant un film : \(filterQuestions({ $0.title.contains("film") }))")
                 
@@ -74,6 +74,7 @@ class Game {
                 scoringStrategy = { isCorrect in return isCorrect ? 1 : -1 }
                 answerCurrentQuestion(with: false)
                 print("Game score minus 1 strategy if false = \(score)")
+                         */
             } catch {
                 print("[Game] Refresh Erreur : \(error)")		
                 self.questions = []
