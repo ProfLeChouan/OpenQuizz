@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var questionView: QuestionView!
+    
+    var game = Game()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +32,19 @@ class ViewController: UIViewController {
                 queue: .main
             ) { notification in
                 print("Notification questionsLoaded reçue !")
+                self.questionsLoaded()
             }
+        
+        startNewGame() // On lance une partie tout de suite
     }
+    
+    func questionsLoaded() {
+        activityIndicator.isHidden = true
+        newGameButton.isHidden = false
+        questionView.title = game.currentQuestion?.title ?? "Pas de question initiale"
+        
+    }
+    
     @IBAction func didTapNewGameButton() {
         print("didTapnewgameButton")
         startNewGame()
@@ -44,6 +57,8 @@ class ViewController: UIViewController {
         questionView.style = .standard
 
         scoreLabel.text = "0 / 10"
+        
+        game.refresh()
     }
 }
 
