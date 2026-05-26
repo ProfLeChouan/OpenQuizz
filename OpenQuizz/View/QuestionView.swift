@@ -16,7 +16,7 @@ class QuestionView: UIView {
     
     override func awakeFromNib() {
             super.awakeFromNib()
-            print(label.font) // ✅ Ici, label et icon NE SONT PAS nil
+            print(label.font)
             print(icon.image)
             title = "Test"
             setStyle(.incorrect)
