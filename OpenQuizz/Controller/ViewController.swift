@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         startNewGame() // On lance une partie tout de suite
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragQuestionView(_:)))
-        
+        questionView.addGestureRecognizer(panGestureRecognizer)
     }
     
     @objc func dragQuestionView(_ sender: UIPanGestureRecognizer) {
@@ -55,11 +55,12 @@ class ViewController: UIViewController {
     }
     
     private func transformQuestionViewWith(gesture: UIPanGestureRecognizer) {
-
+        print("transformQuestionViewWith")
     }
 
     private func answerQuestion() {
-
+        print("answerQuestion")
+       
     }
     
     
@@ -67,7 +68,6 @@ class ViewController: UIViewController {
         activityIndicator.isHidden = true
         newGameButton.isHidden = false
         questionView.title = game.currentQuestion?.title ?? "Pas de question initiale"
-        
     }
     
     @IBAction func didTapNewGameButton() {
