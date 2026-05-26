@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6A45A7982FB3D9280060D61B /* Exceptions for "OpenQuizz" folder in "OpenQuizz" target */ = {
+		6AAB72BA2FC626630084151B /* Exceptions for "OpenQuizz" folder in "OpenQuizz" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Supporting Files/Info.plist",
@@ -24,7 +24,7 @@
 		6A45A7882FB3D9260060D61B /* OpenQuizz */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6A45A7982FB3D9280060D61B /* Exceptions for "OpenQuizz" folder in "OpenQuizz" target */,
+				6AAB72BA2FC626630084151B /* Exceptions for "OpenQuizz" folder in "OpenQuizz" target */,
 			);
 			path = OpenQuizz;
 			sourceTree = "<group>";

@@ -56,3 +56,35 @@ class QuestionView: UIView {
     }
 
 }
+
+
+class BalhamLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        font = UIFont(name: "Balham", size: 30) // Taille par défaut
+    }
+}
+
+class BalhamButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        titleLabel?.font = UIFont(name: "Balham", size: 23) ?? UIFont.systemFont(ofSize: 23)}
+}
