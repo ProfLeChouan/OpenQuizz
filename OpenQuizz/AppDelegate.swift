@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //let game = Game()
         //game.refresh()
+        
+        // Appliquer Balham à tous les UILabel par défaut
+        UILabel.appearance().font = UIFont(name: "Balham", size: 23)
+        
         return true
     }
 
