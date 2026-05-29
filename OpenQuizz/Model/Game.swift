@@ -40,37 +40,40 @@ class Game {
                 let questions = try await QuestionManager.shared.fetchQuestions()
                 self.questions = questions
                 self.state = .ongoing
+                
                 NotificationCenter.default.post(name: .questionsLoaded, object: nil)
+                
                 print("Refesh task end \(self.questions)")
-                		/*
+                /*
                 //Exercice2 - Pratique des fermetures - 1) Filtre
                 print("Questions ayant un film : \(filterQuestions({ $0.title.contains("film") }))")
-                
+
                 //Exercice2 - 2) Filtre des questions correctes
                 print("Questions correctes : \(filterQuestions({ $0.isCorrect }))")
-                
-      
+
+
                 //Exercice2 - 3) Tri des questions
                 print("Questions triees par titre croissant: \(sortQuestions({ $0.title < $1.title }))")
-                
+
                 //4)
                 let sortedQuestionsShort = sortQuestions {
                     $0.isCorrect != $1.isCorrect ? $0.isCorrect && !$1.isCorrect : $1.title < $0.title
                 }
                 print("Questions triees par flag puis par titre: \(sortedQuestionsShort)")
-                
+
                 //5) strategie de score
                 self.questions = filterQuestions({ $0.isCorrect })
-                
+
                 answerCurrentQuestion(with: true)
                 print("Game score default strategy +1 = \(score)")
-                
+
                 // Stratégie alternative : +2 points
                 scoringStrategy = { isCorrect in return isCorrect ? 2 : 0 }
                 answerCurrentQuestion(with: true)
                 print("Game score double strategy = \(score)")
-                
+
                 // Stratégie complexe : +1/-1
+
                 scoringStrategy = { isCorrect in return isCorrect ? 1 : -1 }
                 answerCurrentQuestion(with: false)
                 print("Game score minus 1 strategy if false = \(score)")
