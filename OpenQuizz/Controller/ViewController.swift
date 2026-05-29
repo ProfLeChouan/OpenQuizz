@@ -57,35 +57,12 @@ class ViewController: UIViewController {
         if game.state == .ongoing {
             switch sender.state {
             case .began, .changed:
-                transformQuestionViewWith(gesture: sender)
+                questionView.applyTransformationWith(gesture: sender)
             case .ended, .cancelled:
                 answerQuestion()
             default:
                 break
             }
-        }
-    }
-
-    private func transformQuestionViewWith(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: questionView)
-
-        let translationTransform = CGAffineTransform(
-            translationX: translation.x,
-            y: translation.y
-        )
-
-        let translationPercent =
-            translation.x / (UIScreen.main.bounds.width / 2)
-        let rotationAngle = (CGFloat.pi / 3) * translationPercent
-        let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
-
-        let transform = translationTransform.concatenating(rotationTransform)
-        questionView.transform = transform
-
-        if translation.x > 0 {
-            questionView.style = .correct
-        } else {
-            questionView.style = .incorrect
         }
     }
 

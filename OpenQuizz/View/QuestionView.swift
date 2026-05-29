@@ -69,6 +69,30 @@ class QuestionView: UIView {
         }
     }
 
+    func applyTransformationWith(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self)
+
+        let translationTransform = CGAffineTransform(
+            translationX: translation.x,
+            y: translation.y
+        )
+
+        let translationPercent =
+            translation.x / (UIScreen.main.bounds.width / 2)
+        let rotationAngle = (CGFloat.pi / 3) * translationPercent
+        let rotationTransform = CGAffineTransform(rotationAngle: rotationAngle)
+
+        transform = translationTransform.concatenating(rotationTransform)
+        /*
+        if translation.x > 0 {
+            style = .correct
+        } else {
+            style = .incorrect
+        }
+         */
+        style = translation.x > 0 ? .correct : .incorrect
+    }
+
 }
 
 class BalhamLabel: UILabel {
